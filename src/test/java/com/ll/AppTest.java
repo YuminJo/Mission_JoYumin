@@ -39,4 +39,22 @@ public class AppTest extends TestUtil
 		app.run();
 		printResult();
 	}
+
+	@Test
+	@DisplayName("등록 후 목록을 출력한다.")
+	void testPrintQuotationList()
+	{
+		systemIn("등록\n명언내용\n작가\n등록\n명언내용2\n작가2\n목록\n종료");
+		app.run();
+		printResult();
+	}
+
+	@Test
+	@DisplayName("등록 후 목록을 출력하고 명언을 삭제한다.")
+	void testRemoveQuotation()
+	{
+		systemIn("등록\n명언내용\n작가\n등록\n명언내용2\n작가2\n목록\n삭제?id=1\n종료");
+		app.run();
+		printResult();
+	}
 }

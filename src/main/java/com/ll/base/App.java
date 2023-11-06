@@ -32,6 +32,9 @@ public class App {
 				case "등록":
 					InsertQuotation();
 					break;
+				case "목록":
+					PrintQuotationList();
+					break;
 			}
 		}
 	}
@@ -48,5 +51,14 @@ public class App {
 
 		String formattedString = String.format("%d번 명언이 등록되었습니다.",quotationList.size());
 		System.out.println(formattedString);
+	}
+
+	private void PrintQuotationList()
+	{
+		for(int i = 0; i < quotationList.size(); i++) {
+			Quotation quotation = quotationList.get(i);
+			String formattedString = String.format("%d / %s / %s",i+1,quotation.getQuotewriter(),quotation.getQuotename());
+			System.out.println(formattedString);
+		}
 	}
 }
