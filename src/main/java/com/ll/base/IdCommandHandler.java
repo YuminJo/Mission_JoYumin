@@ -1,5 +1,7 @@
 package com.ll.base;
 
+import com.ll.dataclass.DetailedCommand;
+
 public class IdCommandHandler extends CommandHandler {
 	@Override
 	public DetailedCommand parseCommand(String cmd) {

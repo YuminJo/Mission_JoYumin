@@ -1,6 +1,7 @@
 package com.ll.base;
 import java.util.Scanner;
-import com.ll.quotation.QuotationAction;
+
+import com.ll.dataclass.DetailedCommand;
 
 public class App {
 	private Scanner scanner;

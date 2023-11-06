@@ -1,19 +1,12 @@
 package com.ll;
 
-import java.util.Scanner;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.InstanceOfAssertFactories.*;
 
-import com.ll.base.App;
 import com.ll.base.CommandHandler;
 import com.ll.base.CommandParser;
-import com.ll.base.DetailedCommand;
 import com.ll.base.IdCommandHandler;
 
 public class AppTest extends TestUtil

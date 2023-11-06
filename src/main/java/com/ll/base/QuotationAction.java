@@ -1,12 +1,22 @@
-package com.ll.quotation;
+package com.ll.base;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.ll.dataclass.Quotation;
+
 public class QuotationAction {
 	private Scanner scanner;
-	private LinkedHashMap<Integer,Quotation> quotationList;
+	private LinkedHashMap<Integer, Quotation> quotationList;
+	private final String JSON_FILE_PATH = "C:/Users/zkzkt/Downloads/data.json";
 
 	public QuotationAction(Scanner scanner)
 	{
@@ -22,9 +32,15 @@ public class QuotationAction {
 		System.out.print("작가 : ");
 		String quotewriter = scanner.nextLine();
 
-		quotationList.put(quotationList.size()+1, new Quotation(quotename,quotewriter));
+		//현재 빈 명언 번호를 탐색합니다.
+		int index = 1;
+		while (quotationList.containsKey(index)) {
+			index++;
+		}
 
-		String formattedString = String.format("%d번 명언이 등록되었습니다.",quotationList.size());
+		quotationList.put(index, new Quotation(quotename,quotewriter));
+
+		String formattedString = String.format("%d번 명언이 등록되었습니다.",index);
 		System.out.println(formattedString);
 	}
 
@@ -71,6 +87,27 @@ public class QuotationAction {
 
 	public void buildQuotation()
 	{
+		JSONArray jsonArray = new JSONArray();
+		for (Map.Entry<Integer,Quotation> entry : quotationList.entrySet()) {
+			int key = entry.getKey();
+			Quotation quotation = entry.getValue();
 
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("id",key);
+			jsonObject.put("content",quotation.getQuotename());
+			jsonObject.put("author",quotation.getQuotewriter());
+			jsonArray.put(jsonObject);
+		}
+
+		try(FileWriter file = new FileWriter(JSON_FILE_PATH))
+		{
+			file.write(jsonArray.toString(4));
+			file.flush();
+			file.close();
+			System.out.println("data.json 파일의 내용이 갱신되었습니다.");
+		} catch (IOException e) {
+			System.out.println("에러 : 파일을 저장하는데 실패하였습니다!");
+			throw new RuntimeException(e);
+		}
 	}
 }

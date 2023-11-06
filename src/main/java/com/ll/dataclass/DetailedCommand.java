@@ -1,4 +1,4 @@
-package com.ll.base;
+package com.ll.dataclass;
 
 import lombok.Getter;
 import lombok.Setter;
