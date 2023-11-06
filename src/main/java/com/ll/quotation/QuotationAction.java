@@ -38,16 +38,12 @@ public class QuotationAction {
 		}
 	}
 
-	public void deleteQuotation(int num)
-	{
-		if(quotationList.containsKey(num))
-		quotationList.remove(num);
-		else {
+	public void deleteQuotation(int num) {
+		Quotation removedQuotation = quotationList.remove(num);
+		if (removedQuotation != null) {
+			System.out.println(num + "번 명언이 삭제되었습니다.");
+		} else {
 			System.out.println(num + "번 명언은 존재하지 않습니다.");
-			return;
 		}
-
-		String formattedString = String.format("%d번 명언이 삭제되었습니다.",num);
-		System.out.println(formattedString);
 	}
 }

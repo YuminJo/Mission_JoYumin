@@ -73,6 +73,15 @@ public class AppTest extends TestUtil
 	}
 
 	@Test
+	@DisplayName("등록 후 목록을 출력하고 ID 1번 ID 2번을 삭제한다.")
+	void testRemoveSameQuotation2()
+	{
+		systemIn("등록\n명언내용\n작가\n등록\n명언내용2\n작가2\n목록\n삭제?id=2\n목록\n삭제?id=1\n목록\n종료");
+		app.run();
+		printResult();
+	}
+
+	@Test
 	@DisplayName("명령어 예외 테스트1")
 	void testRemoveCommandException1()
 	{
