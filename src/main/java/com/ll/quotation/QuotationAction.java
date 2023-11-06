@@ -68,4 +68,9 @@ public class QuotationAction {
 			System.out.println(num + "번 명언은 존재하지 않습니다.");
 		}
 	}
+
+	public void buildQuotation()
+	{
+
+	}
 }
