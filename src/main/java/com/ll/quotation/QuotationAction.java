@@ -1,22 +1,17 @@
 package com.ll.quotation;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
-
-import com.ll.error.ErrorList;
 
 public class QuotationAction {
 	private Scanner scanner;
 	private LinkedHashMap<Integer,Quotation> quotationList;
-	private ErrorList errorList;
 
 	public QuotationAction(Scanner scanner)
 	{
 		this.scanner = scanner;
 		quotationList = new LinkedHashMap<>();
-		errorList = new ErrorList();
 	}
 
 	public void insertQuotation()
@@ -35,9 +30,10 @@ public class QuotationAction {
 
 	public void printQuotationList()
 	{
-		for(int i = 1; i <= quotationList.size(); i++) {
-			Quotation quotation = quotationList.get(i);
-			String formattedString = String.format("%d / %s / %s",i,quotation.getQuotewriter(),quotation.getQuotename());
+		for (Map.Entry<Integer,Quotation> entry : quotationList.entrySet()) {
+			int key = entry.getKey();
+			Quotation quotation = entry.getValue();
+			String formattedString = String.format("%d / %s / %s",key,quotation.getQuotewriter(),quotation.getQuotename());
 			System.out.println(formattedString);
 		}
 	}
@@ -47,7 +43,7 @@ public class QuotationAction {
 		if(quotationList.containsKey(num))
 		quotationList.remove(num);
 		else {
-			errorList.errorNumber(num);
+			System.out.println(num + "번 명언은 존재하지 않습니다.");
 			return;
 		}
 

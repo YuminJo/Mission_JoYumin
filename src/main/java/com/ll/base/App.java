@@ -5,9 +5,12 @@ import com.ll.quotation.QuotationAction;
 public class App {
 	private Scanner scanner;
 	private QuotationAction quotationAction;
+	private CommandParser commandParser;
 
 	public App()
 	{
+		CommandHandler commandHandler = new IdCommandHandler();
+		commandParser = new CommandParser(commandHandler);
 	}
 
 	public void run() {
@@ -19,7 +22,7 @@ public class App {
 		while(true) {
 			System.out.print("명령) ");
 
-			DetailedCommand detailedCommand = new DetailedCommand(scanner.nextLine());
+			DetailedCommand detailedCommand = commandParser.parseCommand(scanner.nextLine());
 
 			switch (detailedCommand.getMainCommand()) {
 				case "종료":
