@@ -37,6 +37,9 @@ public class App {
 				case "삭제":
 					quotationAction.deleteQuotation(detailedCommand.getNumber());
 					break;
+				case "수정":
+					quotationAction.modifyQuotation(detailedCommand.getNumber());
+					break;
 			}
 		}
 	}

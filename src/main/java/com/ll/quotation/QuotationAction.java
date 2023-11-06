@@ -30,6 +30,9 @@ public class QuotationAction {
 
 	public void printQuotationList()
 	{
+		System.out.println("번호 / 작가 / 명언");
+		System.out.println("----------------------");
+
 		for (Map.Entry<Integer,Quotation> entry : quotationList.entrySet()) {
 			int key = entry.getKey();
 			Quotation quotation = entry.getValue();
@@ -42,6 +45,25 @@ public class QuotationAction {
 		Quotation removedQuotation = quotationList.remove(num);
 		if (removedQuotation != null) {
 			System.out.println(num + "번 명언이 삭제되었습니다.");
+		} else {
+			System.out.println(num + "번 명언은 존재하지 않습니다.");
+		}
+	}
+
+	public void modifyQuotation(int num) {
+		Quotation modifyQuotation = quotationList.get(num);
+		if (modifyQuotation != null) {
+			System.out.println("명언(기존) : " + modifyQuotation.getQuotename());
+			System.out.print("명언 : ");
+			String newQuotename = scanner.nextLine();
+
+
+			System.out.println("작가(기존) : " + modifyQuotation.getQuotewriter());
+			System.out.print("작가 : ");
+			String newQuotewriter = scanner.nextLine();
+
+			modifyQuotation.setQuotename(newQuotename);
+			modifyQuotation.setQuotewriter(newQuotewriter);
 		} else {
 			System.out.println(num + "번 명언은 존재하지 않습니다.");
 		}
