@@ -7,10 +7,13 @@ import java.io.PrintStream;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
+import com.ll.base.App;
+
 public abstract class TestUtil {
 	//https://steadyjay.tistory.com/10
 	private ByteArrayOutputStream outputStreamCaptor;
 	private PrintStream standardOut; // 표준 스트림
+	public App app;
 
 	protected void systemIn(String input) {
 		System.setIn(new ByteArrayInputStream(input.getBytes()));
@@ -21,6 +24,7 @@ public abstract class TestUtil {
 		standardOut = System.out; // 표준 스트림 초기화
 		outputStreamCaptor = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outputStreamCaptor));
+		app = new App();
 	}
 
 	@AfterEach

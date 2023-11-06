@@ -1,31 +1,33 @@
 package com.ll;
 
+import java.util.Scanner;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.Scanner;
+import com.ll.base.App;
 
 public class AppTest extends TestUtil
 {
 	@Test
 	@DisplayName("종료를 입력하면 앱이 종료된다.")
-	void QuitApp()
+	void testQuitApp()
 	{
-
+		systemIn("종료");
+		app.run();
+		printResult();`
 	}
 
-	// @Test
-	// void set_in_test() {
-	// 	systemIn("원하는 입력값");
-	// 	test();
-	//
-	// 	assertThat(getOutput()).contains("원하는 입력값");
-	// }
-	//
-	// void test() {
-	// 	Scanner scanner = new Scanner(System.in);
-	// 	System.out.println(scanner.nextLine());
-	// }
+	@Test
+	@DisplayName("등록을하면 등록이 된다.")
+	void testInsertQuotation()
+	{
+		systemIn("등록\n명언내용\n작가");
+		app.run();
+		printResult();
+	}
 }
