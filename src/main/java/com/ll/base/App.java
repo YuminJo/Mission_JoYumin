@@ -1,64 +1,40 @@
 package com.ll.base;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-
-import com.ll.quotation.Quotation;
+import com.ll.quotation.QuotationAction;
 
 public class App {
 	private Scanner scanner;
-	private List<Quotation> quotationList;
+	private QuotationAction quotationAction;
 
 	public App()
 	{
-		quotationList = new ArrayList<>();
 	}
 
 	public void run() {
 		scanner = new Scanner(System.in);
+		quotationAction = new QuotationAction(scanner);
 
 		System.out.println("== 명언 앱 ==");
 
 		while(true) {
 			System.out.print("명령) ");
 
-			String command = scanner.nextLine();
+			DetailedCommand detailedCommand = new DetailedCommand(scanner.nextLine());
 
-			switch (command) {
+			switch (detailedCommand.getMainCommand()) {
 				case "종료":
 					scanner.close();
 					return;
 				case "등록":
-					InsertQuotation();
+					quotationAction.insertQuotation();
 					break;
 				case "목록":
-					PrintQuotationList();
+					quotationAction.printQuotationList();
+					break;
+				case "삭제":
+					quotationAction.deleteQuotation(detailedCommand.getNumber());
 					break;
 			}
-		}
-	}
-
-	private void InsertQuotation()
-	{
-		System.out.print("명언 : ");
-		String quotename = scanner.nextLine();
-
-		System.out.print("작가 : ");
-		String quotewriter = scanner.nextLine();
-
-		quotationList.add(new Quotation(quotationList.size()+1,quotename,quotewriter));
-
-		String formattedString = String.format("%d번 명언이 등록되었습니다.",quotationList.size());
-		System.out.println(formattedString);
-	}
-
-	private void PrintQuotationList()
-	{
-		for(int i = 0; i < quotationList.size(); i++) {
-			Quotation quotation = quotationList.get(i);
-			String formattedString = String.format("%d / %s / %s",i+1,quotation.getQuotewriter(),quotation.getQuotename());
-			System.out.println(formattedString);
 		}
 	}
 }

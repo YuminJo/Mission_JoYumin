@@ -8,8 +8,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.*;
 
 import com.ll.base.App;
+import com.ll.base.DetailedCommand;
 
 public class AppTest extends TestUtil
 {
@@ -50,11 +52,55 @@ public class AppTest extends TestUtil
 	}
 
 	@Test
+	@DisplayName("삭제 명령어 테스트")
+	void testRemoveCommand()
+	{
+		DetailedCommand detailedCommand = new DetailedCommand("Test?id=1");
+		printResult();
+	}
+
+	@Test
 	@DisplayName("등록 후 목록을 출력하고 명언을 삭제한다.")
 	void testRemoveQuotation()
 	{
 		systemIn("등록\n명언내용\n작가\n등록\n명언내용2\n작가2\n목록\n삭제?id=1\n종료");
 		app.run();
-		printResult();
+		assertThat(getOutput()).contains("명언이 삭제되었습니다.");
+	}
+
+	@Test
+	@DisplayName("등록 후 목록을 출력하고 ID 1번을 2번 삭제한다.")
+	void testRemoveSameQuotation()
+	{
+		systemIn("등록\n명언내용\n작가\n등록\n명언내용2\n작가2\n목록\n삭제?id=1\n삭제?id=1\n종료");
+		app.run();
+		assertThat(getOutput()).contains("명언은 존재하지 않습니다.");
+	}
+
+	@Test
+	@DisplayName("명령어 예외 테스트1")
+	void testRemoveCommandException1()
+	{
+		//숫자 인식 오류
+		DetailedCommand detailedCommand = new DetailedCommand("Test?id=1!1");
+		assertThat(getOutput()).contains("0번 명언은 존재하지 않습니다.");
+	}
+
+	@Test
+	@DisplayName("명령어 예외 테스트2")
+	void testRemoveCommandException2()
+	{
+		//타입 인식 오류
+		DetailedCommand detailedCommand = new DetailedCommand("Tesasdt?ab=1");
+		assertThat(getOutput()).contains("잘못된 타입입니다.");
+	}
+
+	@Test
+	@DisplayName("명령어 예외 테스트3")
+	void testRemoveCommandException3()
+	{
+		//숫자 인식 오류
+		DetailedCommand detailedCommand = new DetailedCommand("Tesasdt?id=1abc");
+		assertThat(getOutput()).contains("0번 명언은 존재하지 않습니다.");
 	}
 }
