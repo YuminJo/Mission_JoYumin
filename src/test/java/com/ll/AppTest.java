@@ -19,14 +19,23 @@ public class AppTest extends TestUtil
 	{
 		systemIn("종료");
 		app.run();
-		printResult();`
+		printResult();
 	}
 
 	@Test
 	@DisplayName("등록을하면 등록이 된다.")
 	void testInsertQuotation()
 	{
-		systemIn("등록\n명언내용\n작가");
+		systemIn("등록\n명언내용\n작가\n종료");
+		app.run();
+		printResult();
+	}
+
+	@Test
+	@DisplayName("여러 명언을 등록하면 명언번호가 증가한다.")
+	void testMultipleInsertQuotation()
+	{
+		systemIn("등록\n명언내용\n작가\n등록\n명언내용2\n작가2\n종료");
 		app.run();
 		printResult();
 	}
