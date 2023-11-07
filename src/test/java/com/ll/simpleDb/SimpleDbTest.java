@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.*;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import com.ll.db.SimpleDb;
+import com.ll.db.Sql;
 
 @TestInstance(PER_CLASS)
 public class SimpleDbTest {
@@ -145,6 +147,7 @@ public class SimpleDbTest {
         == rawSql ==
         SELECT NOW()
         */
+
 		sql.append("SELECT NOW()");
 
 		LocalDateTime datetime = sql.selectDatetime();
