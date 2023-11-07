@@ -41,6 +41,9 @@ public class App {
 				case "수정":
 					quotationAction.modifyQuotation(detailedCommand.getNumber());
 					break;
+				case "빌드":
+					quotationAction.buildQuotation();
+					break;
 			}
 		}
 	}

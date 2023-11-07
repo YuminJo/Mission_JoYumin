@@ -124,4 +124,22 @@ public class AppTest extends TestUtil
 		app.run();
 		printResult();
 	}
+
+	@Test
+	@DisplayName("빌드 명령어 테스트")
+	void testBuildQuotation()
+	{
+		systemIn("등록\n명언내용\n작가1\n등록\n명언내용2\n작가2\n등록\n명언3\n작가3\n목록\n빌드\n종료");
+		app.run();
+		assertThat(getOutput()).contains("data.json 파일의 내용이 갱신되었습니다.");
+	}
+
+	@Test
+	@DisplayName("불러오기 테스트")
+	void testReadQuotation()
+	{
+		systemIn("목록\n종료");
+		app.run();
+		printResult();
+	}
 }

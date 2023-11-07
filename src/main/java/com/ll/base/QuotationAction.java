@@ -23,6 +23,7 @@ public class QuotationAction {
 	{
 		this.scanner = scanner;
 		quotationList = new LinkedHashMap<>();
+		readQuotes();
 	}
 
 	public void insertQuotation()
@@ -112,20 +113,25 @@ public class QuotationAction {
 		}
 	}
 
-	void readQuotes() throws IOException {
+	void readQuotes() {
 		if (Files.exists(Paths.get(JSON_FILE_PATH)))
 		{
-			String jsonContent = new String(Files.readAllBytes(Paths.get(JSON_FILE_PATH)));
-			JSONArray jsonArray = new JSONArray(jsonContent);
+			try {
+				String jsonContent = new String(Files.readAllBytes(Paths.get(JSON_FILE_PATH)));
+				JSONArray jsonArray = new JSONArray(jsonContent);
 
-			for(int i = 1; i <= jsonArray.length(); i++)
-			{
-				JSONObject jsonObject = jsonArray.getJSONObject(i);
-				String content = jsonObject.getString("content");
-				String author = jsonObject.getString("author");
+				for (int i = 1; i <= jsonArray.length(); i++) {
+					JSONObject jsonObject = jsonArray.getJSONObject(i-1);
+					String content = jsonObject.getString("content");
+					String author = jsonObject.getString("author");
 
-				Quotation quotation = new Quotation(content,author);
-				quotationList.put(i,quotation);
+					Quotation quotation = new Quotation(content, author);
+					quotationList.put(i, quotation);
+				}
+			}
+			catch (IOException e) {
+				System.out.println("에러 : 파일을 불러오는데 실패하였습니다!");
+				throw new RuntimeException(e);
 			}
 		}
 	}
