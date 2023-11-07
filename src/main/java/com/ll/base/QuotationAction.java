@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.ll.dataclass.Quotation;
@@ -108,6 +109,24 @@ public class QuotationAction {
 		} catch (IOException e) {
 			System.out.println("에러 : 파일을 저장하는데 실패하였습니다!");
 			throw new RuntimeException(e);
+		}
+	}
+
+	void readQuotes() throws IOException {
+		if (Files.exists(Paths.get(JSON_FILE_PATH)))
+		{
+			String jsonContent = new String(Files.readAllBytes(Paths.get(JSON_FILE_PATH)));
+			JSONArray jsonArray = new JSONArray(jsonContent);
+
+			for(int i = 1; i <= jsonArray.length(); i++)
+			{
+				JSONObject jsonObject = jsonArray.getJSONObject(i);
+				String content = jsonObject.getString("content");
+				String author = jsonObject.getString("author");
+
+				Quotation quotation = new Quotation(content,author);
+				quotationList.put(i,quotation);
+			}
 		}
 	}
 }
