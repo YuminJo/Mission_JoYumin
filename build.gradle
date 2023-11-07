@@ -7,11 +7,16 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    maven {
+        url 'https://repo.clojars.org'
+        name 'Clojars'
+    }
 }
 
 dependencies {
     implementation 'org.json:json:20231013'
     implementation 'org.projectlombok:lombok:1.18.30'
+    implementation 'user.java.time:user.java.time:2020.267.10158'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
     testImplementation 'org.projectlombok:lombok:1.18.30'

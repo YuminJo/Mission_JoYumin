@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.ll.dataclass.Quotation;
@@ -19,44 +19,38 @@ public class QuotationAction {
 	private LinkedHashMap<Integer, Quotation> quotationList;
 	private final String JSON_FILE_PATH = "C:/Users/zkzkt/Downloads/data.json";
 
-	public QuotationAction(Scanner scanner)
-	{
+	public QuotationAction(Scanner scanner) {
 		this.scanner = scanner;
 		quotationList = new LinkedHashMap<>();
 		readQuotes();
 	}
 
-	public void insertQuotation()
-	{
+	public void insertQuotation() {
 		System.out.print("명언 : ");
 		String quotename = scanner.nextLine();
 
 		System.out.print("작가 : ");
 		String quotewriter = scanner.nextLine();
 
-		//현재 빈 명언 번호를 탐색합니다.
-		int index = 1;
-		while (quotationList.containsKey(index)) {
-			index++;
-		}
+		int index = quotationList.keySet().stream()
+			.max(Integer::compare)
+			.map(maxIndex -> maxIndex + 1)
+			.orElse(1);
 
-		quotationList.put(index, new Quotation(quotename,quotewriter));
-
-		String formattedString = String.format("%d번 명언이 등록되었습니다.",index);
-		System.out.println(formattedString);
+		quotationList.put(index, new Quotation(quotename, quotewriter));
+		System.out.println(index + "번 명언이 등록되었습니다.");
 	}
 
-	public void printQuotationList()
-	{
+	public void printQuotationList() {
 		System.out.println("번호 / 작가 / 명언");
 		System.out.println("----------------------");
 
-		for (Map.Entry<Integer,Quotation> entry : quotationList.entrySet()) {
-			int key = entry.getKey();
-			Quotation quotation = entry.getValue();
-			String formattedString = String.format("%d / %s / %s",key,quotation.getQuotewriter(),quotation.getQuotename());
-			System.out.println(formattedString);
-		}
+		quotationList.entrySet().stream()
+			.forEach(entry -> {
+				int key = entry.getKey();
+				Quotation quotation = entry.getValue();
+				System.out.println(key + " / " + quotation.getQuotewriter() + " / " + quotation.getQuotename());
+			});
 	}
 
 	public void deleteQuotation(int num) {
@@ -75,7 +69,6 @@ public class QuotationAction {
 			System.out.print("명언 : ");
 			String newQuotename = scanner.nextLine();
 
-
 			System.out.println("작가(기존) : " + modifyQuotation.getQuotewriter());
 			System.out.print("작가 : ");
 			String newQuotewriter = scanner.nextLine();
@@ -87,50 +80,46 @@ public class QuotationAction {
 		}
 	}
 
-	public void buildQuotation()
-	{
-		JSONArray jsonArray = new JSONArray();
-		for (Map.Entry<Integer,Quotation> entry : quotationList.entrySet()) {
-			int key = entry.getKey();
-			Quotation quotation = entry.getValue();
+	public void buildQuotation() {
+		JSONArray jsonArray = quotationList.entrySet().stream()
+			.map(entry -> {
+				int key = entry.getKey();
+				Quotation quotation = entry.getValue();
 
-			JSONObject jsonObject = new JSONObject();
-			jsonObject.put("id",key);
-			jsonObject.put("content",quotation.getQuotename());
-			jsonObject.put("author",quotation.getQuotewriter());
-			jsonArray.put(jsonObject);
-		}
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put("id", key);
+				jsonObject.put("content", quotation.getQuotename());
+				jsonObject.put("author", quotation.getQuotewriter());
+				return jsonObject;
+			})
+			.collect(JSONArray::new, JSONArray::put, JSONArray::put);
 
-		try(FileWriter file = new FileWriter(JSON_FILE_PATH))
-		{
+		try (FileWriter file = new FileWriter(JSON_FILE_PATH)) {
 			file.write(jsonArray.toString(4));
 			file.flush();
-			file.close();
 			System.out.println("data.json 파일의 내용이 갱신되었습니다.");
 		} catch (IOException e) {
-			System.out.println("에러 : 파일을 저장하는데 실패하였습니다!");
+			System.out.println("에러: 파일을 저장하는데 실패하였습니다!");
 			throw new RuntimeException(e);
 		}
 	}
 
 	void readQuotes() {
-		if (Files.exists(Paths.get(JSON_FILE_PATH)))
-		{
+		if (Files.exists(Paths.get(JSON_FILE_PATH)) && Files.isRegularFile(Paths.get(JSON_FILE_PATH))) {
 			try {
 				String jsonContent = new String(Files.readAllBytes(Paths.get(JSON_FILE_PATH)));
 				JSONArray jsonArray = new JSONArray(jsonContent);
 
-				for (int i = 1; i <= jsonArray.length(); i++) {
-					JSONObject jsonObject = jsonArray.getJSONObject(i-1);
-					String content = jsonObject.getString("content");
-					String author = jsonObject.getString("author");
-
-					Quotation quotation = new Quotation(content, author);
-					quotationList.put(i, quotation);
-				}
-			}
-			catch (IOException e) {
-				System.out.println("에러 : 파일을 불러오는데 실패하였습니다!");
+				quotationList = IntStream.range(0, jsonArray.length())
+					.mapToObj(i -> jsonArray.getJSONObject(i))
+					.collect(Collectors.toMap(
+						i -> i.getInt("id"),
+						i -> new Quotation(i.getString("content"), i.getString("author")),
+						(e1, e2) -> e1, // Handle duplicates
+						LinkedHashMap::new
+					));
+			} catch (IOException e) {
+				System.out.println("에러: 파일을 불러오는데 실패하였습니다!");
 				throw new RuntimeException(e);
 			}
 		}
