@@ -26,4 +26,7 @@ public class SimpleDb {
 		devMode = active;
 		//DevMode Logic
 	}
+
+	public void run(String s, String title, String body, boolean isBlind) {
+	}
 }

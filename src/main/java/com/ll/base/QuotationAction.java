@@ -1,5 +1,6 @@
 package com.ll.base;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,11 +18,17 @@ import com.ll.dataclass.Quotation;
 public class QuotationAction {
 	private Scanner scanner;
 	private LinkedHashMap<Integer, Quotation> quotationList;
-	private final String JSON_FILE_PATH = "C:/Users/zkzkt/Downloads/data.json";
+	private String JSON_FILE_PATH;
 
 	public QuotationAction(Scanner scanner) {
 		this.scanner = scanner;
 		quotationList = new LinkedHashMap<>();
+
+		String userHome = System.getProperty("user.home");
+		String downloadsFolderPath = userHome + File.separator + "Downloads";
+		JSON_FILE_PATH = downloadsFolderPath + File.separator + "data.json";
+
+
 		readQuotes();
 	}
 

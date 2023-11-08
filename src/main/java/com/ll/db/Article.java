@@ -1,4 +1,4 @@
-package com.ll.simpleDb;
+package com.ll.db;
 
 import java.time.LocalDateTime;
 

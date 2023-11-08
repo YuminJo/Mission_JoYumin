@@ -15,13 +15,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import com.ll.db.Article;
 import com.ll.db.SimpleDb;
 import com.ll.db.Sql;
 
 @TestInstance(PER_CLASS)
 public class SimpleDbTest {
 	private SimpleDb simpleDb;
-
 	@BeforeAll
 	public void beforeAll() {
 		simpleDb = new SimpleDb("localhost", "root", "", "simpleDb__test");
