@@ -35,9 +35,15 @@ public class IdCommandHandler extends CommandHandler {
 	}
 
 	private DetailedCommand handleInvalidCommand(String errorMessage) {
-		System.out.println(errorMessage);
+		logError(errorMessage);
 		DetailedCommand errorCommand = new DetailedCommand();
 		errorCommand.setMainCommand("");
 		return errorCommand;
+	}
+
+	private void logError(String errorMessage) {
+		// 로깅 프레임워크를 사용하여 에러 메시지를 기록
+		// 예: logger.error(errorMessage);
+		System.out.println(errorMessage);
 	}
 }
