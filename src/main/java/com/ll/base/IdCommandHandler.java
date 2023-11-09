@@ -35,11 +35,16 @@ public class IdCommandHandler extends CommandHandler {
 	}
 
 	private DetailedCommand handleInvalidCommand(String errorMessage) {
+<<<<<<< HEAD
 		logError(errorMessage);
+=======
+		System.out.println(errorMessage);
+>>>>>>> 5f010fe5d724b8be849bd9693de77048d5384486
 		DetailedCommand errorCommand = new DetailedCommand();
 		errorCommand.setMainCommand("");
 		return errorCommand;
 	}
+<<<<<<< HEAD
 
 	private void logError(String errorMessage) {
 		// 로깅 프레임워크를 사용하여 에러 메시지를 기록
@@ -47,3 +52,6 @@ public class IdCommandHandler extends CommandHandler {
 		System.out.println(errorMessage);
 	}
 }
+=======
+}
+>>>>>>> 5f010fe5d724b8be849bd9693de77048d5384486
