@@ -1,11 +1,12 @@
 package com.ll.base;
 import java.util.Scanner;
 
+import com.ll.controller.QuotationController;
 import com.ll.dataclass.DetailedCommand;
 
 public class App {
 	private Scanner scanner;
-	private QuotationAction quotationAction;
+	private QuotationController quotationAction;
 	private CommandParser commandParser;
 
 	public App()
@@ -16,7 +17,7 @@ public class App {
 
 	public void run() {
 		scanner = new Scanner(System.in);
-		quotationAction = new QuotationAction(scanner);
+		quotationAction = new QuotationController(scanner);
 
 		System.out.println("== 명언 앱 ==");
 

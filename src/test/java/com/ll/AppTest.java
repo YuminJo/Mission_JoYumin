@@ -62,7 +62,7 @@ public class AppTest extends TestUtil
 	{
 		systemIn("등록\n명언내용\n작가\n등록\n명언내용2\n작가2\n목록\n삭제?id=1\n삭제?id=1\n목록\n종료");
 		app.run();
-		assertThat(getOutput()).contains("명언은 존재하지 않습니다.");
+		assertThat(getOutput()).contains("해당하는 명언을 찾을 수 없습니다.");
 	}
 
 	@Test
