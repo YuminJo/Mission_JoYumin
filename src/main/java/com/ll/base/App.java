@@ -9,6 +9,13 @@ public class App {
 	private QuotationController quotationAction;
 	private CommandParser commandParser;
 
+	private final String EXIT = "종료";
+	private final String REGISTER = "등록";
+	private final String LIST = "목록";
+	private final String DELETE = "삭제";
+	private final String MODIFY = "수정";
+	private final String BUILD = "빌드";
+
 	public App()
 	{
 		CommandHandler commandHandler = new IdCommandHandler();
@@ -27,22 +34,22 @@ public class App {
 			DetailedCommand detailedCommand = commandParser.parseCommand(scanner.nextLine());
 
 			switch (detailedCommand.getMainCommand()) {
-				case "종료":
+				case EXIT:
 					scanner.close();
 					return;
-				case "등록":
+				case REGISTER:
 					quotationAction.insertQuotation();
 					break;
-				case "목록":
+				case LIST:
 					quotationAction.printQuotationList();
 					break;
-				case "삭제":
+				case DELETE:
 					quotationAction.deleteQuotation(detailedCommand.getNumber());
 					break;
-				case "수정":
+				case MODIFY:
 					quotationAction.modifyQuotation(detailedCommand.getNumber());
 					break;
-				case "빌드":
+				case BUILD:
 					quotationAction.buildQuotation();
 					break;
 			}
